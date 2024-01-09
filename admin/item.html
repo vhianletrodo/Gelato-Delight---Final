@@ -1,0 +1,315 @@
+<script>
+//localStorage.clear();
+const currentUser = sessionStorage.getItem('currentUser');
+
+if(currentUser){
+	const parsedArray = JSON.parse(currentUser);
+	let loggedin = parsedArray[0]['isloggedin'];
+	if(loggedin==1){
+
+	}else{
+		window.location.replace("../");
+	}
+}else{
+	window.location.replace("../");
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gelato Delight | Admin Dashboard POS</title>
+
+	<link rel="icon" type="image/x-icon" href="./image/favicon.png">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<link href="./css/style.css" rel="stylesheet">
+</head>
+
+
+
+
+
+<body>
+
+	<div class="bg-dark p-3">
+		<div class="bg-light row mx-0">
+
+
+			<nav class="sidebar close">
+			  <header>
+			    <div class="image-text"> 
+			      <span class="image">
+			        <img id="userImage" src="#" alt="current user">
+			      </span>
+			      <div class="text logo-text">
+			      	<span class="name">Gelato Delight</span>
+			      	<span class="profession">Hello, <span id="currentUser-name"></span></span>
+			    	</div>
+			    </div>
+			    <i class="fa-solid fa-chevron-right toggle"></i>
+			  </header>
+			  <div class="menu-bar">
+			    <div class="menu">
+			      <ul class="menu-links p-0">
+			        <li class="nav-link">
+			          <a href="./index.html">
+			            <i class="fa-solid fa-house icon"></i>
+			            <span class="text nav-text">Dashboard</span>
+			          </a>
+			        </li>
+			        <li class="nav-link">
+			          <a href="./pos.html">
+			            <i class="fa-solid fa-hand-holding-dollar icon"></i>
+			            <span class="text nav-text">Sales</span>
+			          </a>
+			        </li>
+			        <li id="admin-only" class="nav-link active">
+			          <a href="./add.html">
+			            <i class="fa-solid fa-ice-cream icon"></i>
+			            <span class="text nav-text">Gelato</span>
+			          </a>
+			        </li>
+			        <li id="admin-only2" class="nav-link">
+			          <a href="./add.html">
+			            <i class="fa-solid fa-user icon"></i>
+			            <span class="text nav-text">User</span>
+			          </a>
+			        </li>
+			      </ul>
+			    </div>
+			    <div class="bottom-content">
+			    	<ul class="menu-links p-0">
+				      <li class="">
+				        <a href="javascript:void(0);" onclick="logout();">
+				          <i class="fa-solid fa-right-from-bracket icon"></i>
+				          <span class="text nav-text">Logout</span>
+				        </a>
+				      </li>
+			    	</ul>
+			    </div>
+			  </div>
+			</nav>
+
+
+
+
+			
+
+			<!-- Main Content -->
+			<div class="col-sm py-3">
+				<div class="card">
+					<div class="card-header">
+						<ul class="mb-0 list-unstyled">
+							<li class="d-flex justify-content-between align-items-center">
+								<p class="h3 mb-0"><i class="fa-solid fa-file-circle-plus"></i> Add Product</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="card-body">
+						<div class="cart-list-wrap">
+							
+							<div class="mb-4 frm-wrap">
+								
+							<div id="add-return-msg"></div>
+							<div class="frm-wrap mb-4">
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Product ID:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="add_product_id" id="add_product_id" disabled class="text-end">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Product Image:</label>
+									</div>
+									<div class="col">
+										<input type="file" id="product_image">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Product Name:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="add_product_name" id="add_product_name">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cone Price:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="add_cn_price" id="add_cn_price">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cup Price:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="add_cp_price" id="add_cp_price">
+									</div>
+								</div>
+
+								<div class="row mb-1">
+									<div class="col-3">
+										&nbsp;
+									</div>
+									<div class="col">
+										<button onclick="addProduct();" class="btn btn-success">Add Product</button>
+									</div>
+								</div>
+							</div>
+
+							</div>
+
+						</div>						
+					</div>
+
+				</div>
+			</div>
+			<!-- End Main Content -->
+
+			<!-- Warning Content -->
+			<div class="col-sm py-3">
+				<div class="card">
+					<div class="card-header">
+						<ul class="mb-0 list-unstyled">
+							<li class="d-flex justify-content-between align-items-center">
+								<p class="h3 mb-0"><i class="fa-solid fa-gear"></i> Product Configuration</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="card-body">
+						<div class="cart-list-wrap">
+
+							<div id="config-return-msg"></div>
+							<div class="frm-wrap mb-4">
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Product ID:</label>
+									</div>
+									<div class="col">
+										<select id="cbo-product-list" name="cbo-product" onchange="showProduct(this)"></select>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Product Name:</label>
+									</div>
+									<div class="col">
+										<div id="item-product-name"></div>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Hide Product:</label>
+									</div>
+									<div class="col">
+										<input type="checkbox" name="edit-hide" id="item-hide" value="1">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Show Sold Out:</label>
+									</div>
+									<div class="col">
+										<input type="checkbox" name="edit-soldout" id="item-soldout" value="1">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cone Price:</label>
+									</div>
+									<div class="col">
+										<input type="text" class="text-end" name="edit-cn_price" id="edit-cn_price">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cup Price:</label>
+									</div>
+									<div class="col">
+										<input type="text" class="text-end" name="edit-cp_price" id="edit-cp_price">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Allergens:</label>
+									</div>
+									<div class="col">
+										<label><input type="radio" name="e-product_allergens" id="e-product_allergens" value="y"> Yes</label>
+										<label><input type="radio" name="e-product_allergens" id="e-product_allergens" value="n"> No</label>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Best Seller:</label>
+									</div>
+									<div class="col">
+										<label><input type="radio" name="product_bestseller" id="product_bestseller" value="y"> Yes</label>
+										<label><input type="radio" name="product_bestseller" id="product_bestseller" value="n"> No</label>
+									</div>
+								</div>
+
+								<div class="row mb-1">
+									<h4>Received Item</h4>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cones:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="edit-cn_qty" id="cn_qty" class="text-end">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-3">
+										<label>Cup:</label>
+									</div>
+									<div class="col">
+										<input type="text" name="edit-cp_qty" id="cp_qty" class="text-end">
+									</div>
+								</div>
+
+
+								<div class="row mb-1">
+									<div class="col-3">
+										&nbsp;
+									</div>
+									<div class="col">
+										<button onclick="saveConfig(this);" class="btn btn-success" id="save-prdct-config">Save Changes</button>
+									</div>
+								</div>
+							</div>
+
+						</div>						
+					</div>
+					
+				</div>
+			</div>
+			<!-- End Warning Content -->
+
+
+		</div>	
+	</div>
+
+</body>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	<script src="./js/item.js"></script>
+
+<script>
+
+</script>
+</html>
